@@ -1,0 +1,8 @@
+@use '/src/vars' as vars;
+
+.header {
+  flex-shrink: 0;
+  height: 77px;
+  width: 100%;
+  border-bottom: 1px solid vars.$color-stroke;
+}
