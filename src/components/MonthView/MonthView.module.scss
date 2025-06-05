@@ -1,0 +1,50 @@
+@use '/src/vars' as *;
+@use '/src/utils' as *;
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.weekdays {
+  display: flex;
+  height: 24px;
+  border-bottom: 1px solid $color-stroke;
+  flex-shrink: 0;
+
+  .weekday {
+    width: 100%;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: $color-text;
+    display: grid;
+    place-items: center;
+  }
+}
+
+.grid {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: auto;
+
+  .cell {
+    border: 0px solid colorWithOpacity($color-stroke, 60%);
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    padding: 13px;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+    color: $color-text;
+
+    &.otherMonth {
+      background-color: #f2f2f2;
+      color: colorWithOpacity($color-text, 50%);
+    }
+  }
+}
