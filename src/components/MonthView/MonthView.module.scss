@@ -36,15 +36,42 @@
     border: 0px solid colorWithOpacity($color-stroke, 60%);
     border-right-width: 1px;
     border-bottom-width: 1px;
-    padding: 13px;
+    padding: 10px;
     font-weight: 500;
     font-size: 10px;
     line-height: 15px;
     color: $color-text;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     &.otherMonth {
       background-color: #f2f2f2;
-      color: colorWithOpacity($color-text, 50%);
+
+      & > * {
+        opacity: 0.5;
+      }
+    }
+
+    &.today {
+      background-color: $color-selected;
+
+      .date {
+        background-color: $color-text;
+        color: $color-selected;
+        border-radius: 50%;
+        width: fit-content;
+        padding-inline: 4px;
+        flex-shrink: 0;
+      }
+    }
+
+    .date {
+      font-weight: 500;
+      font-size: 10px;
+      line-height: 15px;
+      padding: 3px;
+      color: $color-text;
     }
   }
 }

@@ -1,10 +1,14 @@
+import Event, { EventProps } from '@components/Event';
+import ShowMore from '@components/ShowMore';
 import { Weekday } from '@utils/dayjsConstants';
+import eventColorPalette from '@utils/eventColorPalette';
+import getMonthViewDays from '@utils/getMonthViewDays';
 import cn from 'classnames';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 import styles from './MonthView.module.scss';
 
-interface Props {
+export interface MonthViewProps {
   date: Dayjs;
 }
 
@@ -18,38 +22,16 @@ const DAYS_ORDER = [
   Weekday.SUNDAY,
 ];
 
-const MonthView = ({ date }: Props) => {
-  const days = useMemo<Dayjs[]>(() => {
-    const firstDayOfTheMonth = date.set('date', 1);
-    const firstWeekdayOfTheMonth = firstDayOfTheMonth.get('d');
-    let firstMonday: Dayjs;
+const TEST_EVENTS: EventProps[] = [
+  { color: eventColorPalette.rose, date: dayjs().toDate(), title: 'Event name 1' },
+  { color: eventColorPalette.orange, date: dayjs().add(1, 'd').toDate(), title: 'Event name 2' },
+  { color: eventColorPalette.green, date: dayjs().add(1, 'w').toDate(), title: 'Event name 3' },
+  { color: eventColorPalette.blue, date: dayjs().add(2, 'w').toDate(), title: 'Event name 5' },
+  { color: eventColorPalette.purple, date: dayjs().add(2, 'w').add(1, 'd').toDate(), title: 'Event name 4' },
+];
 
-    if (firstWeekdayOfTheMonth === Weekday.MONDAY) {
-      firstMonday = firstDayOfTheMonth;
-    } else {
-      const daysToPastMonday = firstWeekdayOfTheMonth === Weekday.SUNDAY ? 6 : firstWeekdayOfTheMonth - 1;
-      firstMonday = firstDayOfTheMonth.subtract(daysToPastMonday, 'day');
-    }
-
-    const lastDayOfTheMonth = date.set('date', date.daysInMonth());
-    const lastWeekdayOfTheMonth = lastDayOfTheMonth.get('d');
-    let lastSunday: Dayjs;
-
-    if (lastWeekdayOfTheMonth === Weekday.SUNDAY) {
-      lastSunday = lastDayOfTheMonth;
-    } else {
-      const daysToNextSunday = 7 - lastWeekdayOfTheMonth;
-      lastSunday = lastDayOfTheMonth.add(daysToNextSunday, 'day');
-    }
-
-    const days: Dayjs[] = [];
-
-    for (let day = firstMonday; !day.isAfter(lastSunday, 'd'); day = day.add(1, 'day')) {
-      days.push(day);
-    }
-
-    return days;
-  }, [date]);
+const MonthView = ({ date }: MonthViewProps) => {
+  const days = useMemo<Dayjs[]>(() => getMonthViewDays(date), [date]);
 
   return (
     <div className={styles.wrapper}>
@@ -62,8 +44,23 @@ const MonthView = ({ date }: Props) => {
       </div>
       <div className={styles.grid}>
         {days.map((day) => (
-          <div key={day.toISOString()} className={cn(styles.cell, !day.isSame(date, 'month') && styles.otherMonth)}>
-            {day.format('DD')}
+          <div
+            key={day.toISOString()}
+            className={cn(
+              styles.cell,
+              !day.isSame(date, 'month') && styles.otherMonth,
+              day.isSame(new Date(), 'd') && styles.today
+            )}
+          >
+            <label className={styles.date}>{day.format('DD')}</label>
+
+            <ShowMore
+              items={TEST_EVENTS.slice(0, Math.round(Math.random() * TEST_EVENTS.length))}
+              renderItem={(i) => <Event key={i.title} {...i} />}
+              renderMoreTrigger={(count) => <h3>+{count} more</h3>}
+              direction="column"
+              gap={4}
+            />
           </div>
         ))}
       </div>
