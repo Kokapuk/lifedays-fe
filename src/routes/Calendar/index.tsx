@@ -5,15 +5,15 @@ import useCalendarStore from '@stores/calendar';
 import styles from './Calendar.module.scss';
 
 const Calendar = () => {
-  const { date } = useCalendarStore();
+  const { calendarView, events } = useCalendarStore();
 
   return (
     <div className={styles.wrapper}>
       <Sidebar />
       <div className={styles.mainContainer}>
-        <Header />
+        <Header calendarView={calendarView} />
         <main className={styles.main}>
-          <MonthView date={date} />
+          {calendarView.mode === 'month' && <MonthView date={calendarView.date} events={events} />}
         </main>
       </div>
     </div>

@@ -30,7 +30,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: auto;
+  grid-auto-rows: 1fr;
 
   .cell {
     border: 0px solid colorWithOpacity($color-stroke, 60%);
@@ -61,7 +61,7 @@
         color: $color-selected;
         border-radius: 50%;
         width: fit-content;
-        padding-inline: 4px;
+        padding-inline: 6px;
         flex-shrink: 0;
       }
     }

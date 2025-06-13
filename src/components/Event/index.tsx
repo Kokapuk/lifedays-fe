@@ -15,7 +15,9 @@ const Event = ({ title, date, color }: EventProps) => {
       className={styles.wrapper}
       style={{ '--bgColor': color.background, '--fgColor': color.foreground } as CSSProperties}
     >
-      <h6 className={styles.title}>{title}</h6>
+      <h6 className={styles.title} title={title}>
+        {title}
+      </h6>
       <p className={styles.time}>{dayjs(date).format('HH:mm')}</p>
     </div>
   );

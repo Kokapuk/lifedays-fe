@@ -3,7 +3,21 @@
 
 .header {
   flex-shrink: 0;
-  height: 50px;
+  height: 75px;
   width: 100%;
   border-bottom: 1px solid colorWithOpacity($color-stroke, 60%);
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+.viewMode {
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  color: $color-text;
+
+  b {
+    font-weight: 500;
+  }
 }
